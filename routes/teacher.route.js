@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 
 // Express route
 const teacherExpressRoute = express.Router();
@@ -12,18 +13,19 @@ const { check, validationResult } = require('express-validator');
 // User schema
 let TeacherSchema = require('../model/teacher.model');
 
-// Sign-in
-teacherExpressRoute.route("/signin").get((req, res, next) => {
-    
-    const {email, password} =req.body;
-    let errors = [];
-  
-    TeacherSchema.find(error, {email:email} && {password:password})=>{
-        if(error){
-            return next(error);
-        }else
-            msg: "Identifiant reconnus, bienvenue";
-    }
+
+
+
+teacherExpressRoute.get('/login', urlencodedParser,function (req, res) {
+  var get = req.body;
+
+  if (get.email == TeacherSchema.findOne(TeacherSchema.email) /*&& get.password == TeacherSchema.findOne(TeacherSchema.password)*/) {
+   res.send('good one, welcome');
+    //req.session.user_id = johns_user_id_here;
+    //res.redirect('Main Page');
+  } else {
+    res.send('Bad user/pass');  
+  }
 });
 
 // Recup utilisateurs
