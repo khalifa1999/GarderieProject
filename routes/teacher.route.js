@@ -4,8 +4,27 @@ const app = express();
 // Express route
 const teacherExpressRoute = express.Router();
 
+
+const { check, validationResult } = require('express-validator');
+
+
+
 // User schema
 let TeacherSchema = require('../model/teacher.model');
+
+// Sign-in
+teacherExpressRoute.route("/signin").get((req, res, next) => {
+    
+    const {email, password} =req.body;
+    let errors = [];
+  
+    TeacherSchema.find(error, {email:email} && {password:password})=>{
+        if(error){
+            return next(error);
+        }else
+            msg: "Identifiant reconnus, bienvenue";
+    }
+});
 
 // Recup utilisateurs
 teacherExpressRoute.route('/Recup-teacher').get((req, res) => {
